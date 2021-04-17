@@ -1,0 +1,27 @@
+This is a basic sample of PlugIn for PL/SQL Developer using Visual Studio 2015 Community.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+This sample is configured to work on both 32 and 64 bits.
+
+In order for the plugin to be compiled correctly with Visual Studio,
+the following parameters must be set in the project properties:
+
+Linker -> Advanced -> Randomized Base Address = NO 
+Linker -> Advanced -> Fixed Base Address = NO 
+Linker -> Advanced -> Data Execution Prevention (DEP) = NO 
+
+
+The demo requires Microsoft Visual C++ 2015 Redistributable Update 3
+https://www.microsoft.com/en-us/download/details.aspx?id=53587
+
