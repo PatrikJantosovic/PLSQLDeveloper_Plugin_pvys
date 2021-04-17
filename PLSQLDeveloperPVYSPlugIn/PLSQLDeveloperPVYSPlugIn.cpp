@@ -142,12 +142,12 @@ char* CreateMenuItem(int nIndex) {
 	else { // PL/SQL Developer 12 use a Ribbon and no longer menu.
 		if (nIndex == siRibbonTab) { return "TAB=PVYS Plugin [tabindex=9]"; }
 		if (nIndex == siMenuGlobal) { return "GROUP=PVYS Plugin"; }
-		if (nIndex == siAddVersion) { return "ITEM=Add Version"; }
-		if (nIndex == siAddVersionStaged) { return "ITEM=Add Version to Staged"; }
-		if (nIndex == siGetMessageCommit) { return "ITEM=Get Changes for Commit"; }
-		if (nIndex == siGetMessageTask) { return "ITEM=Get Changes for Task"; }
-		if (nIndex == siGetMessageTaskLast) { return "ITEM=Get Changes for Task (last commit)"; }
-		if (nIndex == siGetPluginInfo) { return "ITEM=Plugin info"; }
+		if (nIndex == siAddVersion) { return "LARGEITEM=Add Version"; }
+		if (nIndex == siAddVersionStaged) { return "LARGEITEM=Add Version to Staged"; }
+		if (nIndex == siGetMessageCommit) { return "LARGEITEM=Get Changes for Commit"; }
+		if (nIndex == siGetMessageTask) { return "LARGEITEM=Get Changes for Task"; }
+		if (nIndex == siGetMessageTaskLast) { return "LARGEITEM=Get Changes for Task (last commit)"; }
+		if (nIndex == siGetPluginInfo) { return "LARGEITEM=Plugin info"; }
 		//if (nIndex == siMenuSysVersion) { return "SUBITEM=SYS_Version()"; }
 	}
 	return "";
@@ -192,37 +192,61 @@ void OnActivate() {
 	setMenuIcons();
 }
 
+// Helper function that reads data from clipboard using win32 api
+std::string GetClipboardText()
+{
+	// Try opening the clipboard
+	if (!OpenClipboard(nullptr))
+		return "";
+
+	// Get handle of clipboard object for ANSI text
+	HANDLE hData = GetClipboardData(CF_TEXT);
+	if (hData == nullptr)
+		return "";
+
+	// Lock the handle to get the actual text pointer
+    char * pText = static_cast<char*>(GlobalLock(hData));
+	if (pText == nullptr)
+		return "";
+
+	// Save text in a string class instance
+	std::string text(pText);
+
+	// Release the lock
+	GlobalUnlock(hData);
+
+	// Release the clipboard
+	CloseClipboard();
+
+	return text;
+}
+
 // This function is called when a user selected a menu-item created with the CreateMenuItem
 // function and the Index parameter has the value (1 to 99) it is related to.
 void OnMenuClick(int nIndex) {
 	IDE_DebugLog("Called: OnMenuClick()");
-	char Msg[5000] = "Hello";
+	std::string clipboard = GetClipboardText();
 	
 	if (nIndex == siAddVersion) {
-		//sprintf_s(Msg, "SYS_Version() =  %d", SYS_Version());
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	else if (nIndex == siAddVersionStaged) {
-		//sprintf_s(Msg, "SYS_Registry() =  %s", SYS_Registry());
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	else if (nIndex == siGetMessageCommit) {
-		//sprintf_s(Msg, "SYS_RootDir() =  %s", SYS_RootDir());
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	else if (nIndex == siGetMessageTask) {
-		//sprintf_s(Msg, "SYS_OracleHome() =  %s", SYS_OracleHome());
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	else if (nIndex == siGetMessageTaskLast) {
-		//sprintf_s(Msg, "SYS_OCIDLL() =  %s", SYS_OCIDLL());
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	else if (nIndex == siGetPluginInfo) {
-		MessageBox(NULL, Msg, "Demo Plugin", MB_ICONINFORMATION);
+		IDE_ShowHTML("https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "", "PL/SQL Developer plugin for PVYS versioning", "");
 	}
 	//else if (nIndex == siMenuGetHelp) {
-	//	IDE_ShowHTML("http://forums.allroundautomations.com/list.html", "", "PL/SQL Developer Forums","");
+	//	IDE_ShowHTML("https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "", "PL/SQL Developer Forums","");
 	//} 
 	//else if (nIndex == siMenuPopup) {
 	//	char* cType;
