@@ -221,14 +221,56 @@ std::string GetClipboardText()
 	return text;
 }
 
+void RunSubProcess(std::string command) {
+	STARTUPINFO si;
+	PROCESS_INFORMATION pi;
+
+	ZeroMemory(&si, sizeof(si));
+	si.cb = sizeof(si);
+	ZeroMemory(&pi, sizeof(pi));
+
+	//conversion from string
+	LPSTR cmd = const_cast<char*>(command.c_str());
+
+	// Start the child process. 
+	if (!CreateProcess(NULL,   // No module name (use command line)
+		cmd,        // Command line
+		NULL,           // Process handle not inheritable
+		NULL,           // Thread handle not inheritable
+		FALSE,          // Set handle inheritance to FALSE
+		0,              // No creation flags
+		NULL,           // Use parent's environment block
+		NULL,           // Use parent's starting directory 
+		&si,            // Pointer to STARTUPINFO structure
+		&pi)           // Pointer to PROCESS_INFORMATION structure
+		)
+	{
+		return;
+	}
+
+	// Wait until child process exits.
+	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	// Close process and thread handles. 
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+}
+
 // This function is called when a user selected a menu-item created with the CreateMenuItem
 // function and the Index parameter has the value (1 to 99) it is related to.
 void OnMenuClick(int nIndex) {
 	IDE_DebugLog("Called: OnMenuClick()");
 	std::string clipboard = GetClipboardText();
+	std::string pathToJar = "\"" + std::string(SYS_RootDir()) + "PlugIns\\VersionControl.jar\"";
 	
 	if (nIndex == siAddVersion) {
-		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		if (clipboard.empty() || clipboard.at(0) != '[') {
+			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
+			return;
+		}
+		std::string command = "java -jar " + pathToJar + " add -t=\"" + clipboard + "\"";
+		MessageBox(NULL, command.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		RunSubProcess(command);
 	}
 	else if (nIndex == siAddVersionStaged) {
 		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);

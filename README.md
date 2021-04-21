@@ -16,8 +16,9 @@ https://github.com/PatrikJantosovic/VersionControl
 - Get list of edited files for given task, only from last commit
 
 ## Installation
-- Unzip files from Release section in this repository to Plugins folder of your PL/SQL Developer installation
-- That is all
+- Make sure java is on your PATH
+- Copy .dll from Release section in this repository to Plugins folder of your PL/SQL Developer installation
+- Go to the linked github project and install it
 
 ## Usage
 - As of now, plugin expects you to have the Task ID / Commit hash stored in your clipboard
