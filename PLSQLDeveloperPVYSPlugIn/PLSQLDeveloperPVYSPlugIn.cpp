@@ -201,13 +201,18 @@ std::string GetClipboardText()
 
 	// Get handle of clipboard object for ANSI text
 	HANDLE hData = GetClipboardData(CF_TEXT);
-	if (hData == nullptr)
+	if (hData == nullptr) {
+		CloseClipboard();
 		return "";
+	}
 
 	// Lock the handle to get the actual text pointer
     char * pText = static_cast<char*>(GlobalLock(hData));
-	if (pText == nullptr)
+	if (pText == nullptr) {
+		GlobalUnlock(hData);
+		CloseClipboard();
 		return "";
+	}
 
 	// Save text in a string class instance
 	std::string text(pText);
@@ -269,20 +274,39 @@ void OnMenuClick(int nIndex) {
 			return;
 		}
 		std::string command = "java -jar " + pathToJar + " add -t=\"" + clipboard + "\"";
-		MessageBox(NULL, command.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
 		RunSubProcess(command);
 	}
 	else if (nIndex == siAddVersionStaged) {
-		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		if (clipboard.empty() || clipboard.at(0) != '[') {
+			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
+			return;
+		}
+		std::string command = "java -jar " + pathToJar + " add -s=\"true\" -t=\"" + clipboard + "\"";
+		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageCommit) {
-		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		if (clipboard.empty() || clipboard.at(0) == '[') {
+			MessageBox(NULL, "Commit hash in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
+			return;
+		}
+		std::string command = "java -jar " + pathToJar + " getc -c=\"" + clipboard + "\"";
+		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageTask) {
-		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		if (clipboard.empty() || clipboard.at(0) != '[') {
+			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
+			return;
+		}
+		std::string command = "java -jar " + pathToJar + " get -t=\"" + clipboard + "\"";
+		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageTaskLast) {
-		MessageBox(NULL, clipboard.c_str(), "PVYS Plugin", MB_ICONINFORMATION);
+		if (clipboard.empty() || clipboard.at(0) != '[') {
+			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
+			return;
+		}
+		std::string command = "java -jar " + pathToJar + " get -l=\"true\" -t=\"" + clipboard + "\"";
+		RunSubProcess(command);
 	}
 	else if (nIndex == siGetPluginInfo) {
 		IDE_ShowHTML("https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "", "PL/SQL Developer plugin for PVYS versioning", "");
