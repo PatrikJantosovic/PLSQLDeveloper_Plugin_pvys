@@ -156,11 +156,11 @@ char* CreateMenuItem(int nIndex) {
 // Function for Menu Icons. Called from OnActivate(). Separated from there for lisibility.
 void setMenuIcons() {
 	// Set images for Menu items/Ribbon
-	std::string cIconAddVersion = std::string(SYS_RootDir()) + "\\icons\\Calendar1.png";
-	std::string cIconAddVersionStaged = std::string(SYS_RootDir()) + "\\icons\\Calendar2.png";
-	std::string cIconGetMessageCommit = std::string(SYS_RootDir()) + "\\icons\\RegFile.png";
-	std::string cIconGetMessageTask = std::string(SYS_RootDir()) + "\\icons\\Setup.png";
-	std::string cIconGetMessageTaskLast = std::string(SYS_RootDir()) + "\\icons\\SQLPlus.png";
+	std::string cIconAddVersion = std::string(SYS_RootDir()) + "\\icons\\Check.png";
+	std::string cIconAddVersionStaged = std::string(SYS_RootDir()) + "\\icons\\CheckIt.png";
+	std::string cIconGetMessageCommit = std::string(SYS_RootDir()) + "\\icons\\WindowOptions.png";
+	std::string cIconGetMessageTask = std::string(SYS_RootDir()) + "\\icons\\Show1.png";
+	std::string cIconGetMessageTaskLast = std::string(SYS_RootDir()) + "\\icons\\Show2.png";
 	std::string cIconGetPluginInfo = std::string(SYS_RootDir()) + "\\icons\\Help2.png";
 
 	// Setting icon only for the Version 12 - Ribbon. No need on version 11 - Menu
@@ -243,7 +243,7 @@ void RunSubProcess(std::string command) {
 		NULL,           // Process handle not inheritable
 		NULL,           // Thread handle not inheritable
 		FALSE,          // Set handle inheritance to FALSE
-		0,              // No creation flags
+		CREATE_NO_WINDOW,  // DONT FLASH THE TERMINAL WINDOWS
 		NULL,           // Use parent's environment block
 		NULL,           // Use parent's starting directory 
 		&si,            // Pointer to STARTUPINFO structure
@@ -309,7 +309,7 @@ void OnMenuClick(int nIndex) {
 		RunSubProcess(command);
 	}
 	else if (nIndex == siGetPluginInfo) {
-		IDE_ShowHTML("https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "", "PL/SQL Developer plugin for PVYS versioning", "");
+		MessageBox(NULL, "Non-official, not really supported versioning plugin. Full readme here: https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "PVYS Plugin", MB_ICONINFORMATION);
 	}
 	//else if (nIndex == siMenuGetHelp) {
 	//	IDE_ShowHTML("https://github.com/PatrikJantosovic/PLSQLDeveloper_Plugin_pvys#readme", "", "PL/SQL Developer Forums","");

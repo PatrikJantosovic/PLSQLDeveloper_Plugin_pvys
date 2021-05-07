@@ -24,6 +24,9 @@ https://github.com/PatrikJantosovic/VersionControl
 - As of now, plugin expects you to have the Task ID / Commit hash stored in your clipboard
 - This means that on menu item click, no other action is required and files are automatically edited / list of files is stored to your clipboard 
 
+## Issues
+- If there is a bug / idea for improvement, feel free to create an issue on github and I will try to resolve it.
+
 ## License
 MIT
 
