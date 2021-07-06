@@ -273,7 +273,7 @@ void OnMenuClick(int nIndex) {
 			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
 			return;
 		}
-		std::string command = "java -jar " + pathToJar + " add -t=\"" + clipboard + "\"";
+		std::string command = "java -jar " + pathToJar + " add -r=\"C:\\Projects\\Provys\\server\" -t=\"" + clipboard + "\"";
 		RunSubProcess(command);
 	}
 	else if (nIndex == siAddVersionStaged) {
@@ -281,7 +281,7 @@ void OnMenuClick(int nIndex) {
 			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
 			return;
 		}
-		std::string command = "java -jar " + pathToJar + " add -s=\"true\" -t=\"" + clipboard + "\"";
+		std::string command = "java -jar " + pathToJar + " add -r=\"C:\\Projects\\Provys\\server\" -s=\"true\" -t=\"" + clipboard + "\"";
 		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageCommit) {
@@ -289,7 +289,7 @@ void OnMenuClick(int nIndex) {
 			MessageBox(NULL, "Commit hash in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
 			return;
 		}
-		std::string command = "java -jar " + pathToJar + " getc -c=\"" + clipboard + "\"";
+		std::string command = "java -jar " + pathToJar + " getc -r=\"C:\\Projects\\Provys\\server\" -c=\"" + clipboard + "\"";
 		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageTask) {
@@ -297,7 +297,7 @@ void OnMenuClick(int nIndex) {
 			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
 			return;
 		}
-		std::string command = "java -jar " + pathToJar + " get -t=\"" + clipboard + "\"";
+		std::string command = "java -jar " + pathToJar + " get -r=\"C:\\Projects\\Provys\\server\" -t=\"" + clipboard + "\"";
 		RunSubProcess(command);
 	}
 	else if (nIndex == siGetMessageTaskLast) {
@@ -305,7 +305,7 @@ void OnMenuClick(int nIndex) {
 			MessageBox(NULL, "Task ID in clipboard expected!", "PVYS Plugin", MB_ICONINFORMATION);
 			return;
 		}
-		std::string command = "java -jar " + pathToJar + " get -l=\"true\" -t=\"" + clipboard + "\"";
+		std::string command = "java -jar " + pathToJar + " get -r=\"C:\\Projects\\Provys\\server\" -l=\"true\" -t=\"" + clipboard + "\"";
 		RunSubProcess(command);
 	}
 	else if (nIndex == siGetPluginInfo) {
